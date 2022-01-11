@@ -51,7 +51,7 @@ function createCartItemElement({ sku, name, price }) {
   return li;
 }
 
-function createProductItemElement({ sku, name, image, price }) {
+function createItemElement({ sku, name, image, price }) {
   const section = document.createElement('section');
   section.className = 'item';
   
@@ -74,12 +74,12 @@ function getMercadoLibre() {
   const sectionItems = document.querySelector('.items');
   fetch(promise).then((response) => response.json())
   .then((data) => data.results.forEach(({ id, title, thumbnail, price }) => sectionItems
-  .appendChild(createProductItemElement({ sku: id, name: title, image: thumbnail, price }))))
-  .then(() => {
+  .appendChild(createItemElement({ sku: id, name: title, image: thumbnail, price })))).then(() => {
     for (let index = 0; index < localStorage.length; index += 1) {
       const [sku, name, price] = localStorage.getItem(`item${index}`).split('|');
       const saveInLocalStorage = { sku, name, price };
       createCartItemElement(saveInLocalStorage);
+      container.removeChild(loading);
     }
     container.removeChild(loading);
   });
